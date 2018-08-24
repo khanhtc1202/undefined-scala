@@ -24,6 +24,6 @@ object RemoteActor {
     val system = ActorSystem("RemoteSystem", config)
 
     val remote = system.actorOf(Props[RemoteActor], name = "remote")
-    println("Remote actor is ready")
+    println("Remote actor is ready", remote)
   }
 }
