@@ -9,7 +9,7 @@ class RemoteActor extends Actor {
 
   override def receive: Receive = {
     case msg: String => {
-      println(s"remote received $msg from $sender")
+      println(s"remote received: $msg from $sender")
       sender ! "hi"
     }
     case _ => println("Received unknown msg")

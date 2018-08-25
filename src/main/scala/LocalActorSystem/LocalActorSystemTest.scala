@@ -22,6 +22,7 @@ class MasterActor extends Actor {
     case msg: String => {
       println(s"Receive ${msg} from ${sender}")
       sender ! "hi"
+      context.system.terminate()
     }
   }
 }
