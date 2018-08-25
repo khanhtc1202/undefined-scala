@@ -1,4 +1,4 @@
-package com.sample.akka.remote
+package SeparateActorSystem.remote
 
 import java.io.File
 
@@ -9,7 +9,7 @@ class RemoteActor extends Actor {
 
   override def receive: Receive = {
     case msg: String => {
-      println("remote received " + msg + " from " + sender)
+      println(s"remote received $msg from $sender")
       sender ! "hi"
     }
     case _ => println("Received unknown msg")
@@ -24,6 +24,6 @@ object RemoteActor {
     val system = ActorSystem("RemoteSystem", config)
 
     val remote = system.actorOf(Props[RemoteActor], name = "remote")
-    println("Remote actor is ready", remote)
+    println(s"Remote actor $remote is ready")
   }
 }

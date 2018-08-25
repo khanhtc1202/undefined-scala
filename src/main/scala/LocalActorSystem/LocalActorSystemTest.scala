@@ -1,25 +1,23 @@
-package com.sample.akka.local
+package LocalActorSystem
 
 import java.io.File
 
 import akka.actor.{Actor, ActorSystem, Props}
 import com.typesafe.config.ConfigFactory
 
-class GuardianActor extends Actor {
-
+class SlaveActor extends Actor {
   override def receive: Receive = {
     case "START" => {
-      lazy val managerActor = ActorSystemRef.instance.actorSelection("user/manager")
+      lazy val managerActor = ActorSystemRef.instance.actorSelection("user/master")
       managerActor ! "Hello sir"
     }
     case msg: String => {
       println(s"Receive ${msg} from ${sender}")
     }
   }
-
 }
 
-class ManagerActor extends Actor {
+class MasterActor extends Actor {
   override def receive: Receive = {
     case msg: String => {
       println(s"Receive ${msg} from ${sender}")
@@ -31,18 +29,18 @@ class ManagerActor extends Actor {
 object ActorSystemRef {
   private val configFile = getClass.getClassLoader.getResource("local_application.conf").getFile
   private val config = ConfigFactory.parseFile(new File(configFile))
-  val instance = ActorSystem("ClientSystem", config)
+  val instance = ActorSystem("LocalActorSystem", config)
 }
 
-object GuardianActor {
+object LocalActorSystemTest {
   def main(args: Array[String]): Unit = {
     val system = ActorSystemRef.instance
 
-    val managerActor = system.actorOf(Props[ManagerActor], name = "manager")
-    val guardianActor = system.actorOf(Props[GuardianActor], name = "local")
+    val masterActor = system.actorOf(Props[MasterActor], name = "master")
+    val slaveActor = system.actorOf(Props[SlaveActor], name = "slave")
 
-    println(s"Actors:  ${managerActor}, ${guardianActor}")
+    println(s"Actors: ${masterActor}, ${slaveActor}")
 
-    guardianActor ! "START"
+    slaveActor ! "START"
   }
 }
