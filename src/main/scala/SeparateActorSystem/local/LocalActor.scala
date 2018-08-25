@@ -2,7 +2,7 @@ package SeparateActorSystem.local
 
 import java.io.File
 
-import akka.actor.{Actor, ActorSelection, ActorSystem, Props}
+import akka.actor.{Actor, ActorSystem, Props}
 import com.typesafe.config.ConfigFactory
 
 class LocalActor extends Actor {
@@ -27,6 +27,6 @@ object LocalActor {
     val system = ActorSystem("ClientSystem", config)
     val localActor = system.actorOf(Props[LocalActor], name = "local")
 
-    println(s"Actor $LocalActor started")
+    println(s"Actor $localActor started")
   }
 }
