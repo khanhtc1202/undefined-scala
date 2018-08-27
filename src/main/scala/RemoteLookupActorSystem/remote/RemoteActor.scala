@@ -1,4 +1,4 @@
-package SeparateActorSystem.remote
+package RemoteLookupActorSystem.remote
 
 import java.io.File
 
